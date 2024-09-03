@@ -8,6 +8,7 @@ export interface Movie {
 
 export interface Response<T> {
   Search: T[];
-  totalResults: number;
-  Response: boolean;
+  totalResults: string;
+  Response: string;
+  Error: string;
 }

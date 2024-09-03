@@ -13,7 +13,14 @@ const useMovies = (search: string) => {
     setIsLoading(true);
     axios
       .get<Response<Movie>>(`${apiURL}?apikey=${apiKey}&s=${search}`)
-      .then((res) => setMovies(res.data.Search))
+      .then((res) => {
+        if (res.data.Response === "True") {
+          setMovies(res.data.Search);
+          setError("");
+        } else {
+          setError(res.data.Error);
+        }
+      })
       .catch((e) => setError(e.message))
       .finally(() => setIsLoading(false));
   }, [search]);
