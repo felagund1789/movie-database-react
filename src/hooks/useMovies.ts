@@ -4,7 +4,12 @@ import { Movie, Response } from "../types";
 const apiURL = import.meta.env.VITE_API_URL;
 const apiKey = import.meta.env.VITE_API_KEY;
 
-const useMovies = (search: string) => {
+interface Props {
+  search: string;
+  type: string;
+}
+
+const useMovies = ({ search, type }: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -12,7 +17,9 @@ const useMovies = (search: string) => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get<Response<Movie>>(`${apiURL}?apikey=${apiKey}&s=${search}`)
+      .get<Response<Movie>>(
+        `${apiURL}?apikey=${apiKey}&s=${search}&type=${type}`
+      )
       .then((res) => {
         if (res.data.Response === "True") {
           setMovies(res.data.Search);
@@ -23,7 +30,7 @@ const useMovies = (search: string) => {
       })
       .catch((e) => setError(e.message))
       .finally(() => setIsLoading(false));
-  }, [search]);
+  }, [search, type]);
 
   return { movies, isLoading, error };
 };
