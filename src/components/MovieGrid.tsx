@@ -1,4 +1,5 @@
-import { SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, SimpleGrid, Text } from "@chakra-ui/react";
+import React from "react";
 import useMovies from "../hooks/useMovies";
 import { SearchQuery } from "../types";
 import MovieCard from "./MovieCard";
@@ -10,23 +11,38 @@ interface Props {
 
 const MovieGrid = ({ searchQuery }: Props) => {
   const skeletons = Array.from(Array(20).keys());
-  const { data, isLoading, error } = useMovies(searchQuery);
+  const {
+    data,
+    isLoading,
+    error,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useMovies(searchQuery);
 
-  if (searchQuery.search !== "" && (error || data?.Error))
-    return <Text margin={5}>Error: {error?.message || data?.Error}</Text>;
+  if (error) return <Text margin={5}>Error: {error?.message}</Text>;
 
   return (
-    <SimpleGrid
-      columns={{ sm: 1, md: 2, lg: 3, xl: 6 }}
-      padding={5}
-      spacing={5}
-    >
-      {isLoading
-        ? skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)
-        : data?.Search?.map((movie) => (
-            <MovieCard key={movie.imdbID} movie={movie} />
-          ))}
-    </SimpleGrid>
+    <Box padding={5}>
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 6 }} spacing={5}>
+        {isLoading &&
+          skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
+        {data?.pages.map((page, index) => (
+          <React.Fragment key={index}>
+            {page.Search?.map((movie) => (
+              <MovieCard key={movie.imdbID} movie={movie} />
+            ))}
+          </React.Fragment>
+        ))}
+      </SimpleGrid>
+      <Flex justifyContent="center">
+        {searchQuery.search && hasNextPage && (
+          <Button marginY={5} onClick={() => fetchNextPage()}>
+            {isFetchingNextPage ? "Loading..." : "Load More"}
+          </Button>
+        )}
+      </Flex>
+    </Box>
   );
 };
 
