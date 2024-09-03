@@ -1,18 +1,33 @@
-import { Badge, Card, CardBody, Heading, Image } from "@chakra-ui/react";
+import {
+  Badge,
+  Card,
+  CardBody,
+  Heading,
+  Image,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import posterPlaceholderDark from "../assets/poster-placeholder-dark.png";
+import posterPlaceholder from "../assets/poster-placeholder.png";
 import { Movie } from "../types";
-import posterPlaceholder from "../assets/poster-placeholder.png"; 
 
 interface Props {
   movie: Movie;
 }
 
 const MovieCard = ({ movie }: Props) => {
-  const poster = movie.Poster === "N/A" ? posterPlaceholder : movie.Poster;
+  const placeholder = useColorModeValue(
+    posterPlaceholder,
+    posterPlaceholderDark
+  );
+  const poster = movie.Poster === "N/A" ? placeholder : movie.Poster;
+
   return (
     <Card borderRadius={10} overflow="hidden">
       <Image alt={movie.Title} src={poster} />
       <CardBody>
-        <Heading fontSize="xl">{movie.Title} ({movie.Year})</Heading>
+        <Heading fontSize="xl">
+          {movie.Title} ({movie.Year})
+        </Heading>
         <Badge>{movie.Type}</Badge>
       </CardBody>
     </Card>
