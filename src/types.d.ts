@@ -11,9 +11,9 @@ export interface Type {
   value: string;
 }
 
-export interface Response<T> {
-  Search: T[];
-  totalResults: string;
+export interface FetchResponse<T> {
+  Search?: T[];
+  totalResults?: string;
   Response: string;
-  Error: string;
+  Error?: string;
 }

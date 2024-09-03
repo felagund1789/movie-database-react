@@ -10,9 +10,10 @@ interface Props {
 
 const MovieGrid = ({ type, search }: Props) => {
   const skeletons = Array.from(Array(20).keys());
-  const { movies, isLoading, error } = useMovies({ search, type });
+  const { data, isLoading, error } = useMovies({ search, type });
 
-  if (error) return <Text margin={5}>Error: {error}</Text>;
+  if (search !== "" && (error || data?.Error))
+    return <Text margin={5}>Error: {error?.message || data?.Error}</Text>;
 
   return (
     <SimpleGrid
@@ -22,7 +23,9 @@ const MovieGrid = ({ type, search }: Props) => {
     >
       {isLoading
         ? skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)
-        : movies.map((movie) => <MovieCard key={movie.imdbID} movie={movie} />)}
+        : data?.Search?.map((movie) => (
+            <MovieCard key={movie.imdbID} movie={movie} />
+          ))}
     </SimpleGrid>
   );
 };
