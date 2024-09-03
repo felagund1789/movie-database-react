@@ -1,8 +1,11 @@
 import { Grid, GridItem } from "@chakra-ui/react";
+import { useState } from "react";
 import MovieGrid from "./components/MovieGrid";
 import NavBar from "./components/NavBar";
 
 function App() {
+  const [searchText, setSearchText] = useState("Robin Hood");
+
   return (
     <Grid
       templateAreas={{
@@ -10,10 +13,10 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar />
+        <NavBar onSearch={(text) => setSearchText(text)} />
       </GridItem>
       <GridItem area="main">
-        <MovieGrid search={"Robin Hood"}></MovieGrid>
+        <MovieGrid search={searchText}></MovieGrid>
       </GridItem>
     </Grid>
   );
