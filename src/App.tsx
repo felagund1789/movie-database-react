@@ -2,7 +2,7 @@ import { Button, Grid, GridItem, HStack } from "@chakra-ui/react";
 import { useState } from "react";
 import MovieGrid from "./components/MovieGrid";
 import NavBar from "./components/NavBar";
-import { Type } from "./types";
+import { SearchQuery, Type } from "./types";
 
 function App() {
   const types: Type[] = [
@@ -10,8 +10,10 @@ function App() {
     { name: "Series", value: "series" },
     { name: "Games", value: "game" },
   ];
-  const [searchText, setSearchText] = useState("");
-  const [type, setType] = useState<string>("movie");
+  const [searchQuery, setSearchQuery] = useState<SearchQuery>({
+    search: "",
+    type: "movie",
+  });
 
   return (
     <Grid
@@ -20,13 +22,15 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar onSearch={(text) => setSearchText(text)} />
+        <NavBar
+          onSearch={(text) => setSearchQuery({ ...searchQuery, search: text })}
+        />
         <HStack paddingX={5}>
           {types.map((t) => (
             <Button
               key={t.value}
-              isActive={type === t.value}
-              onClick={() => setType(t.value)}
+              isActive={searchQuery.type === t.value}
+              onClick={() => setSearchQuery({ ...searchQuery, type: t.value })}
             >
               {t.name}
             </Button>
@@ -34,7 +38,7 @@ function App() {
         </HStack>
       </GridItem>
       <GridItem area="main">
-        <MovieGrid search={searchText} type={type}></MovieGrid>
+        <MovieGrid searchQuery={searchQuery}></MovieGrid>
       </GridItem>
     </Grid>
   );

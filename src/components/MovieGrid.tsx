@@ -1,18 +1,18 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import useMovies from "../hooks/useMovies";
+import { SearchQuery } from "../types";
 import MovieCard from "./MovieCard";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 
 interface Props {
-  search: string;
-  type: string;
+  searchQuery: SearchQuery;
 }
 
-const MovieGrid = ({ type, search }: Props) => {
+const MovieGrid = ({ searchQuery }: Props) => {
   const skeletons = Array.from(Array(20).keys());
-  const { data, isLoading, error } = useMovies({ search, type });
+  const { data, isLoading, error } = useMovies(searchQuery);
 
-  if (search !== "" && (error || data?.Error))
+  if (searchQuery.search !== "" && (error || data?.Error))
     return <Text margin={5}>Error: {error?.message || data?.Error}</Text>;
 
   return (

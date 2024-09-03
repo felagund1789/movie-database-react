@@ -1,21 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../services/apiClient";
-import { FetchResponse, Movie } from "../types";
+import { FetchResponse, Movie, SearchQuery } from "../types";
 
-interface Props {
-  search: string;
-  type: string;
-}
-
-const useMovies = ({ search, type }: Props) =>
+const useMovies = (searchQuery: SearchQuery) =>
   useQuery<FetchResponse<Movie>, Error>({
-    queryKey: ["movies", type, search],
+    queryKey: ["movies", searchQuery],
     queryFn: () =>
       apiClient
         .get<FetchResponse<Movie>>("", {
           params: {
-            type,
-            s: search,
+            type: searchQuery.type,
+            s: searchQuery.search,
           },
         })
         .then((res) => res.data),

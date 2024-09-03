@@ -8,7 +8,7 @@ export interface Movie {
 
 export interface Type {
   name: string;
-  value: string;
+  value: "movie" | "series" | "game";
 }
 
 export interface FetchResponse<T> {
@@ -16,4 +16,8 @@ export interface FetchResponse<T> {
   totalResults?: string;
   Response: string;
   Error?: string;
+}
+export interface SearchQuery {
+  search: string;
+  type: "movie" | "series" | "game";
 }
