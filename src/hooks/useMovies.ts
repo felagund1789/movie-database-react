@@ -15,6 +15,11 @@ const useMovies = ({ search, type }: Props) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (!search) {
+      setMovies([]);
+      return;
+    }
+
     setIsLoading(true);
     axios
       .get<Response<Movie>>(

@@ -10,7 +10,7 @@ function App() {
     { name: "Series", value: "series" },
     { name: "Games", value: "game" },
   ];
-  const [searchText, setSearchText] = useState("Robin Hood");
+  const [searchText, setSearchText] = useState("");
   const [type, setType] = useState<string>("movie");
 
   return (

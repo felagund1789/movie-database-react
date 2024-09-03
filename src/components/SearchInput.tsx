@@ -1,6 +1,11 @@
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { useRef } from "react";
-import { BsSearch } from "react-icons/bs";
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+} from "@chakra-ui/react";
+import { useRef, useState } from "react";
+import { BsSearch, BsX } from "react-icons/bs";
 
 interface Props {
   onSearch: (search: string) => void;
@@ -8,6 +13,13 @@ interface Props {
 
 const SearchInput = ({ onSearch }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
+  const [searchText, setSearchText] = useState("");
+
+  const clearSearchText = () => {
+    setSearchText("");
+    onSearch("");
+    ref.current?.focus();
+  };
 
   return (
     <form
@@ -25,6 +37,13 @@ const SearchInput = ({ onSearch }: Props) => {
           borderRadius={20}
           placeholder="Search movies, series and games..."
           variant="filled"
+          value={searchText}
+          onChange={(input) => setSearchText(input.target.value)}
+        />
+        <InputRightElement
+          cursor="pointer"
+          children={searchText && <BsX />}
+          onClick={clearSearchText}
         />
       </InputGroup>
     </form>
