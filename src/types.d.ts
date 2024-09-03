@@ -5,3 +5,9 @@ export interface Movie {
   Type: "movie" | "series" | "game",
   Poster: string;
 }
+
+export interface Response<T> {
+  Search: T[];
+  totalResults: number;
+  Response: boolean;
+}
