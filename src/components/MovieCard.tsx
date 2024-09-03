@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, Image } from "@chakra-ui/react";
+import { Badge, Card, CardBody, Heading, Image } from "@chakra-ui/react";
 import { Movie } from "../types";
 
 interface Props {
@@ -11,6 +11,7 @@ const MovieCard = ({ movie }: Props) => {
       <Image alt={movie.Title} src={movie.Poster} />
       <CardBody>
         <Heading fontSize="xl">{movie.Title} ({movie.Year})</Heading>
+        <Badge>{movie.Type}</Badge>
       </CardBody>
     </Card>
   );
