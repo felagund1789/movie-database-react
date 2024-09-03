@@ -13,10 +13,11 @@ export interface Type {
 
 export interface FetchResponse<T> {
   Search?: T[];
-  totalResults?: string;
+  totalResults: string;
   Response: string;
   Error?: string;
 }
+
 export interface SearchQuery {
   search: string;
   type: "movie" | "series" | "game";
