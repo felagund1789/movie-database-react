@@ -11,7 +11,7 @@ const useMovies = (searchQuery: SearchQuery) =>
       apiClient.getAll({
         params: {
           type: searchQuery.type,
-          s: searchQuery.search,
+          s: searchQuery.search?.trim(),
           page: pageParam,
         },
       }),
