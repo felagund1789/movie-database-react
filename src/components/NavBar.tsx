@@ -28,7 +28,11 @@ const NavBar = ({ onSearch }: Props) => {
         {!multiline && <Box flex={1}>{searchInput}</Box>}
         <ColorModeSwitch />
       </HStack>
-      {multiline && <Box paddingX={5}>{searchInput}</Box>}
+      {multiline && (
+        <Box paddingBottom={4} paddingX={5}>
+          {searchInput}
+        </Box>
+      )}
     </>
   );
 };
